@@ -1,14 +1,71 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NRM3XCS9XY"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    window.addEventListener("load", function(){
+      window.cookieconsent.initialise({
+        palette: {
+          popup: { background: "#000", text: "#fff" },
+          button: { background: "#ffd700", text: "#000" },
+          secondaryButton: { background: "#555", text: "#fff" } 
+        },
+        theme: "classic",
+        type: "opt-in", 
+        content: {
+          message: "Vi använder cookies för analys och förbättrad upplevelse.",
+          allow: "Acceptera",
+          deny: "Neka",
+          link: "Privacy policy",
+          href: "#/policy"
+        },
+        onInitialise: function(status) {
+          if (this.hasConsented()) enableGA();
+        },
+        onStatusChange: function(status, chosenBefore) {
+          if (this.hasConsented()) enableGA();
+          else disableGA();
+        },
+        onRevokeChoice: function() {
+          disableGA();
+        }
+      });
+    });
+
     
-      gtag('config', 'G-NRM3XCS9XY');
+    function enableGA() {
+      if (!window.gtagLoaded) {
+        window.gtagLoaded = true;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-NRM3XCS9XY";
+        document.head.appendChild(script);
+
+        script.onload = function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+
+          gtag('js', new Date());
+          gtag('config', 'G-NRM3XCS9XY');
+        };
+      }
+    }
+
+
+    function disableGA() {
+      if (window.gtag) {
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'denied'
+        });
+      }
+    }
     </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hornhuset Studentskivor - En kväll att minnas</title>
@@ -27,8 +84,8 @@
         #lovable-badge { display: none !important; }
     </style>
   
-    <script type="module" crossorigin src="/assets/index-BkxVbwJV.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D_ZwNBzF.css">
+    <script type="module" crossorigin src="/assets/index-B72CGkXx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DCL-tP0c.css">
   </head>
 
   <body>
